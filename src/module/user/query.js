@@ -3,7 +3,8 @@ export default {
         return {
             id: 1,
             name: 'Ankush Negi',
-            email: 'ankushnegi5555@gmail.com'
+            email: 'ankushnegi5555@gmail.com',
+            role: 'Trainer'
         }
     }
 }
