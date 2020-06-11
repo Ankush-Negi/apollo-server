@@ -5,8 +5,7 @@ export default {
         console.log('Value of getAll Users', User.getAllUsers());
         return User.getAllUsers();
     },
-    getTrainee: (args) => {
-        return User.getUser(args)
+    getTrainee: (parent, args, context) => {
+        return User.getUser(args);
     },
-
 }

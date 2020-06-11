@@ -12,9 +12,8 @@ export default class Server {
     run = () => {
       const { port, env } = this.config;
       console.log('Value of port and env', port, env);
-      this.app.listen(port, () => {
-        // this.httpServer.listen(port, () => {
-        console.log(`Server started at ${port} ${env}`);
+      this.httpServer.listen(port, () => {
+      console.log(`Server started at ${port} ${env}`);
       })
   }
   
@@ -39,8 +38,8 @@ export default class Server {
           }
         });
         this.server.applyMiddleware({ app });
-        // this.httpServer = createServer(app);
-        // this.server.installSubscriptionHandlers(this.httpServer);
+        this.httpServer = createServer(app);
+        this.server.installSubscriptionHandlers(this.httpServer);
         this.run();
       };
 }
