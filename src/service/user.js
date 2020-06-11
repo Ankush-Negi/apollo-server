@@ -4,12 +4,13 @@ class User {
         this.id = 0;
     }
 
-    getUser(id) {
+    getUser(args) {
+        const { id } = args;
         return this.users.get(Number(id));
     }
 
     getAllUsers() {
-        return this.users;
+        return Array.from(this.users.values());
     }
 
     createUser(user) {
