@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { createServer } from 'http';
 import { ApolloServer } from 'apollo-server-express';
+import { UserAPI, traineeAPI } from './datasource';
 
 export default class Server {
     constructor(config) {
@@ -33,6 +34,12 @@ export default class Server {
         const { app } = this;
         this.server = new ApolloServer({
           ...schema,
+          dataSources: () => {
+            return {
+              userAPI: new UserAPI(),
+              // traineeAPI: new traineeAPI(),
+            };
+          },
           healthCheck : () => (resolve) => {
             resolve('I am Ok');
           }

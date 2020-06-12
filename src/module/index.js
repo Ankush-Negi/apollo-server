@@ -6,12 +6,6 @@ import * as trainee from './trainee';
 const typesArray = fileLoader(path.join(__dirname, '/**/*.graphql'));
 const typeDefs = mergeTypes(typesArray, {all: true});
 
-console.log('Value of Query====>', user.Query);
-console.log('Value of Query====>', trainee.Query);
-console.log('Value of Mutation====>', trainee.Mutation);
-console.log('Value of Subscription====>', trainee.Subscription);
-
-
 export default {
     resolvers:{
         Query: {
@@ -19,6 +13,7 @@ export default {
             ...trainee.Query
         },
         Mutation: {
+            ...user.Mutation,
             ...trainee.Mutation
         },
         Subscription: {
