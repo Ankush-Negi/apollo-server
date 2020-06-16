@@ -7,7 +7,7 @@ const typesArray = fileLoader(path.join(__dirname, '/**/*.graphql'));
 const typeDefs = mergeTypes(typesArray, {all: true});
 
 export default {
-    resolvers:{
+    resolvers: {
         Query: {
             ...user.Query,
             ...trainee.Query
@@ -21,4 +21,4 @@ export default {
         }
     },
     typeDefs,
-}
+};

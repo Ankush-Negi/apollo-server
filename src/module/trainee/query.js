@@ -1,11 +1,26 @@
-import User from '../../service/user';
+import { UserInputError } from 'apollo-server';
 
 export default {
-    getAllTrainee : () => { 
-        console.log('Value of getAll Users', User.getAllUsers());
-        return User.getAllUsers();
+    getAllTrainee : async(parent, args, context) => { 
+        try {
+            const { dataSources: { traineeAPI } } = context;
+            const response = await traineeAPI.getTrainee(args);
+            console.log('Value of getAll Trainee', response);
+            return response;
+        }
+        catch(error) {
+            return new UserInputError('Invalid Arguments', { invalidArgs: Object.keys(args) });
+        }
     },
-    getTrainee: (parent, args, context) => {
-        return User.getUser(args);
+    getTrainee: async(parent, args, context) => {
+        try {
+            const { dataSources: { traineeAPI } } = context;
+            const response = await traineeAPI.getTrainee(args);
+            console.log('Value of getSingle Trainee', response);
+            return response;
+        }
+        catch(error) {
+            return new UserInputError('Invalid Arguments', { invalidArgs: Object.keys(args) });
+        }
     },
-}
+};

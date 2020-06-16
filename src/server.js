@@ -2,51 +2,57 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { createServer } from 'http';
 import { ApolloServer } from 'apollo-server-express';
-import { UserAPI, traineeAPI } from './datasource';
+import { UserAPI, TraineeAPI } from './datasource';
 
 export default class Server {
-    constructor(config) {
-        this.config = config;
-        this.app = express();
-    }
-
-    run = () => {
-      const { port, env } = this.config;
-      console.log('Value of port and env', port, env);
-      this.httpServer.listen(port, () => {
-      console.log(`Server started at ${port} ${env}`);
-      })
+  constructor(config) {
+    this.config = config;
+    this.app = express();
   }
-  
-    initBodyParser = () => {
-      const { app } = this;
-      app.use('/graphql',bodyParser.urlencoded({ extended: false }));
-      app.use('/graphql',bodyParser.json());
+
+  run = () => {
+    const { port, env } = this.config;
+    console.log('Value of port and env', port, env);
+    this.httpServer.listen(port, () => {
+    console.log(`Server started at ${port} ${env}`);
+    })
+  }
+
+  initBodyParser = () => {
+    const { app } = this;
+    app.use('/graphql',bodyParser.urlencoded({ extended: false }));
+    app.use('/graphql',bodyParser.json());
+    return this;
+  };
+
+  bootstrap = () => {
+      this.initBodyParser();
       return this;
-    };
+  };
 
-    bootstrap = () => {
-        this.initBodyParser();
-        return this;
-    };
-
-    setupApollo = (schema) => {
-        const { app } = this;
-        this.server = new ApolloServer({
-          ...schema,
-          dataSources: () => {
-            return {
-              userAPI: new UserAPI(),
-              // traineeAPI: new traineeAPI(),
-            };
-          },
-          healthCheck : () => (resolve) => {
-            resolve('I am Ok');
-          }
-        });
-        this.server.applyMiddleware({ app });
-        this.httpServer = createServer(app);
-        this.server.installSubscriptionHandlers(this.httpServer);
-        this.run();
-      };
+  setupApollo = (schema) => {
+    const { app } = this;
+    this.server = new ApolloServer({
+      ...schema,
+      dataSources: () => {
+        return {
+          userAPI: new UserAPI(),
+          traineeAPI: new TraineeAPI(),
+        };
+      },
+      context: ({ req }) => {
+        if (req) {
+          return { token: req.headers.authorization };
+        }
+        return {};
+      },
+      healthCheck : () => (resolve) => {
+        resolve('I am Ok');
+      }
+    });
+    this.server.applyMiddleware({ app });
+    this.httpServer = createServer(app);
+    this.server.installSubscriptionHandlers(this.httpServer);
+    this.run();
+  };
 }
