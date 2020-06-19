@@ -1,0 +1,18 @@
+type Query {
+    getMyProfile: User!
+    getAllTrainee(skip: Int, limit: Int): [User]
+    getTrainee(id: String!): User!
+}
+
+type Mutation {
+    createTrainee(user: userCreateInput): User!
+    updateTrainee(dataToUpdate: userUpdateInput): String!
+    deleteTrainee(id: String!): String!
+    loginUser(payload: InputCredentials): String!
+}
+
+type Subscription {
+    traineeAdded: User!
+    traineeUpdated: ID!
+    traineeDeleted: ID!
+}
