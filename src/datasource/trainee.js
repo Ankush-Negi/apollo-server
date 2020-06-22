@@ -25,10 +25,13 @@ export default class TraineeAPI extends RESTDataSource {
     }
     
     async getTrainee(options) {
-        const response = await this.get('/', {...options});
-        const { data } = response;
-        const { records } = data;
-        return await records;
+        try {
+            const response = await this.get('/', {...options});
+            return response.data;
+        } catch(error) {
+            console.log('Error: ', error);
+        }
+
     }
     
     async updateTrainee(payload) {

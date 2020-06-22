@@ -10,3 +10,13 @@ input userUpdateInput {
     password: String
     id: String!
 }
+
+input getAllInput {
+    skip: Int
+    limit: Int
+}
+
+type Trainee {
+    records : [User]
+    count: Int
+}

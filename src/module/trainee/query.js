@@ -3,8 +3,10 @@ import { UserInputError } from 'apollo-server';
 export default {
     getAllTrainee : async(parent, args, context) => { 
         try {
+            const { options } = args;
             const { dataSources: { traineeAPI } } = context;
-            const response = await traineeAPI.getTrainee(args);
+            console.log('inside query of getall', options);
+            const response = await traineeAPI.getTrainee(options);
             console.log('Value of getAll Trainee', response);
             return response;
         }

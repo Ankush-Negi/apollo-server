@@ -1,6 +1,6 @@
 type Query {
     getMyProfile: User!
-    getAllTrainee(skip: Int, limit: Int): [User]
+    getAllTrainee(options: getAllInput): Trainee!
     getTrainee(id: String!): User!
 }
 
