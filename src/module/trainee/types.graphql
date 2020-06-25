@@ -7,13 +7,18 @@ input userCreateInput {
 input userUpdateInput {
     name: String
     email: String
-    password: String
-    id: String!
+    id: ID!
 }
 
 input getAllInput {
     skip: Int
     limit: Int
+}
+
+type UpdateSub{
+    originalId: ID!
+    name: String
+    email: String
 }
 
 type Trainee {

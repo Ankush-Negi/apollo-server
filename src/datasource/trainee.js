@@ -12,21 +12,28 @@ export default class TraineeAPI extends RESTDataSource {
     }
 
     async createTrainee(payload) {
-        const response = await this.post('/', {...payload});
-        const { data } = response;
-        return await data;
+        try{
+            const response = await this.post('/', {...payload});
+            const { data } = response;
+            return data;
+        } catch(error){
+            console.log('Error: ', error);
+        }
+
     }
     
     async deleteTrainee(ID) {
         const { id } = ID;
         const response = await this.delete(`/${id}`);
         const { data } = response;
-        return await data.id;
+        return data.id;
     }
     
     async getTrainee(options) {
         try {
+            console.log('value of options in getTrainee', options);
             const response = await this.get('/', {...options});
+            console.log('value of response in same', response);
             return response.data;
         } catch(error) {
             console.log('Error: ', error);
@@ -38,6 +45,6 @@ export default class TraineeAPI extends RESTDataSource {
         const { dataToUpdate } = payload;
         const response = await this.put('/', {...dataToUpdate});
         const { data: { id} } = response;
-        return await id;
+        return id;
     }
 }

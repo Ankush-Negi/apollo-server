@@ -21,7 +21,6 @@ export default {
             const { id } = args;
             const { dataSources: { traineeAPI } } = context;
             const deleteUser = await traineeAPI.deleteTrainee({id});
-            console.log('deleteUser', deleteUser);
             PubSub.publish(constant.subscriptions.TRAINEE_DELETED, { traineeDeleted: deleteUser });
             return deleteUser;
         }
@@ -34,7 +33,8 @@ export default {
         try {
             const { dataSources: { traineeAPI } } = context;
             const updateUser = await traineeAPI.updateTrainee({...args});
-            PubSub.publish(constant.subscriptions.TRAINEE_UPDATED, { traineeUpdated: updateUser});
+            const { dataToUpdate: {name, email} } = args;
+            PubSub.publish(constant.subscriptions.TRAINEE_UPDATED, { traineeUpdated: { originalId : updateUser, name, email}});
             return updateUser;
         }
         catch(error) {
