@@ -1,0 +1,27 @@
+input userCreateInput {
+    name: String!
+    email: String!
+    password: String!
+}
+
+input userUpdateInput {
+    name: String
+    email: String
+    id: ID!
+}
+
+input getAllInput {
+    skip: Int
+    limit: Int
+}
+
+type UpdateSub{
+    originalId: ID!
+    name: String
+    email: String
+}
+
+type Trainee {
+    records : [User]
+    count: Int
+}
